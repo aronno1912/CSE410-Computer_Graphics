@@ -60,15 +60,15 @@ void axes()
     }
     glEnd();
 
-     glBegin(GL_LINES);
-    {
-        glVertex3f(ballLocation[0], ballLocation[1], ballLocation[2]);
-        glVertex3f(ballLocation[0]+cos(currDir * pi / (double)180)*2, 0,ballLocation[2]+sin(currDir * pi / (double)180)*2 );
+    //  glBegin(GL_LINES);
+    // {
+    //     glVertex3f(ballLocation[0], ballLocation[1], ballLocation[2]);
+    //     glVertex3f(ballLocation[0]+cos(currDir * pi / (double)180)*2, 0,ballLocation[2]+sin(currDir * pi / (double)180)*2 );
         
-        // glVertex3f(0,0,0);
-        // glVertex3f(10,0,0);
-    }
-    glEnd();
+    //     // glVertex3f(0,0,0);
+    //     // glVertex3f(10,0,0);
+    // }
+    // glEnd();
     // Draw the arrowhead
 // glBegin(GL_TRIANGLES);
 // {
@@ -219,40 +219,116 @@ void drawSegmentedSphere()
 
     glPopMatrix();
 }
-float thres=0.00;
+float thres=0.5;
+float border=4.5f;
 void checkReflect()
 {
     // Check if the ball is hitting the boundary
     int counter = 0;
-    if (ballLocation[0] - radius-thres < -5.0f || ballLocation[0] + radius +thres> 5.0f ||
-        ballLocation[2] - radius -thres< -5.0f || ballLocation[2] + radius+thres > 5.0f)
-    {
-        // printf("hit  %d\n", counter++);
-        hit = !hit;
-        //currDir = (currDir*2) % 360;
-    }
+    float dx= cos(currDir * pi / (double)180) *2;
+    float dz= sin(currDir * pi / (double)180) *2;
+    // if (ballLocation[0] - radius-thres < -5.0f || ballLocation[0] + radius +thres> 5.0f ||
+    //     ballLocation[2] - radius -thres< -5.0f || ballLocation[2] + radius+thres > 5.0f)
+    // {
+    //     printf("hit  %d\n", counter++);
+    //     hit = !hit;
+    //     currDir = (currDir*2) % 360;
+    // }
 
     // printf("ball location %f %f %f\n", ballLocation[0], ballLocation[1], ballLocation[2]);
-    // printf("\n");
+    //  printf("\n");
+
+    if (ballLocation[0] - radius+dx < -border || ballLocation[0] + radius +dx> border)
+        
+    {
+        printf("hit  %d\n", counter++);
+        hit = !hit;
+        currDir = 180-currDir;
+    }
+    else if(ballLocation[2] - radius -dz< -border || ballLocation[2] + radius+dz > border)
+    {
+        printf("hit  %d\n", counter++);
+        hit = !hit;
+        currDir = 360-currDir;
+    }
 }
 
 void moveBackward()
 {   
-    if(hit)currDir=currDir+180;
-    double distanceTrav;
-    forwardAngle = (forwardAngle + 10);
-    distanceTrav = 2 * pi * 5.0 * (double)(10) / (double)(360);
-    ballLocation[0] -= cos(currDir * pi / (double)180) * distanceTrav;
-    ballLocation[2] -= sin(currDir * pi / (double)180) * distanceTrav;
+    //if(hit)currDir=(currDir+180)%360;
+    // double distanceTrav;
+    // forwardAngle = (forwardAngle + 10);
+    // distanceTrav = 2 * pi * 5.0 * (double)(10) / (double)(360);
+    // ballLocation[0] -= cos(currDir * pi / (double)180) * distanceTrav;
+    // ballLocation[2] -= sin(currDir * pi / (double)180) * distanceTrav;
+
+    // if(hit)currDir=(currDir+180)%360;
+    // //double distanceTrav;
+    // //forwardAngle = (forwardAngle - 10);
+    // //distanceTrav = 2 * pi * 5.0 * (double)(-10) / (double)(360);
+    // double dx= cos(currDir * pi / (double)180) *2;
+    // double dz= sin(currDir * pi / (double)180) *2;
+    // ballLocation[0] += dx;
+    // ballLocation[2] += dz;
+    // forwardAngle = (forwardAngle - 10);
+
+    
 }
 void moveForward()
 {   
-    if(hit)currDir=currDir+180;
-    double distanceTrav;
-    forwardAngle = (forwardAngle - 10);
-    distanceTrav = 2 * pi * 5.0 * (double)(-10) / (double)(360);
-    ballLocation[0] -= cos(currDir * pi / (double)180) * distanceTrav;
-    ballLocation[2] -= sin(currDir * pi / (double)180) * distanceTrav;
+    // //if(hit)currDir=(currDir+180)%360;
+    // double distanceTrav;
+    // forwardAngle = (forwardAngle - 10);
+    // distanceTrav = 2 * pi * 5.0 * (double)(-10) / (double)(360);
+    // ballLocation[0] -= cos(currDir * pi / (double)180) * distanceTrav;
+    // ballLocation[2] -= sin(currDir * pi / (double)180) * distanceTrav;
+
+    //if(hit)currDir=(currDir+90)%360;
+    //double distanceTrav;
+    //forwardAngle = (forwardAngle - 10);
+    //distanceTrav = 2 * pi * 5.0 * (double)(-10) / (double)(360);
+    // double dx= cos(currDir * pi / (double)180) *2;
+    // double dz= sin(currDir * pi / (double)180) *2;
+    // ballLocation[0] += dx;
+    // ballLocation[2] += dz;
+    // forwardAngle = (forwardAngle + 10);
+
+
+    //hreeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+
+
+      float dx= cos(currDir * pi / (double)180) *2;
+    float dz= sin(currDir * pi / (double)180) *2;
+ 
+    if( ballLocation[0] + radius >= 4.5f)
+    {
+        //dx=border-radius-ballLocation[0];
+         currDir = 180-currDir;
+    }
+
+    else if (ballLocation[0] - radius <= -4.5f  )
+        
+    {
+        // printf("hit  \n");
+        // hit = !hit;
+        dx=-border+radius-ballLocation[0];
+        currDir = 180-currDir;
+    }
+    else if( ballLocation[2] + radius >= 4.5f)
+    {
+        //dz=border-radius-ballLocation[2];
+        currDir = 180-currDir;
+    }
+    else if(ballLocation[2] - radius <=-4.5f )
+    {
+        // printf("hit  \n" );
+        // hit = !hit;
+        //dz=-border+radius-ballLocation[2];
+        currDir = 180-currDir;
+    }
+    ballLocation[0] += dx;
+    ballLocation[2] += dz;
+    forwardAngle +=180*2/(pi*radius);
 }
 void display()
 {
@@ -294,7 +370,7 @@ void display()
     glPushMatrix();
     drawSegmentedSphere();
     glPopMatrix();
-    checkReflect();
+    //checkReflect();
     glPopMatrix();
     glutSwapBuffers();
 }
@@ -378,8 +454,8 @@ void keyboardListener(unsigned char key, int x, int y)
             
         // }
 
-        //printf("ball location %f %f %f\n", ballLocation[0], ballLocation[1], ballLocation[2]);
-        //printf("\n");
+        printf("ball location %f %f %f\n", ballLocation[0], ballLocation[1], ballLocation[2]);
+        printf("\n");
 
         break;
     case 'k': // Move the ball backward
@@ -388,8 +464,8 @@ void keyboardListener(unsigned char key, int x, int y)
         
         
 
-        //printf("ball location %f %f %f\n", ballLocation[0], ballLocation[1], ballLocation[2]);
-        //printf("\n");
+        printf("ball location %f %f %f\n", ballLocation[0], ballLocation[1], ballLocation[2]);
+        printf("\n");
         break;
 
     case 'j': // direction will rotate counterclockwise
